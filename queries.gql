@@ -1,0 +1,107 @@
+query Ping {
+  ping
+}
+
+query Currencies {
+	currencies {
+		id
+		name
+		iso_code
+		fractional_unit
+		number_to_basic
+	}
+}
+
+query Currency($id: Int!) {
+	currency(id: $id) {
+		id
+		name
+		iso_code
+		fractional_unit
+		number_to_basic
+	}
+}
+
+query Exchanges {
+	exchanges {
+		id
+		name
+		
+		country {
+			alpha3_code
+			name
+		}
+
+		currency {
+			name
+			iso_code
+		}
+
+		open_utc
+		close_utc
+	}
+}
+
+mutation UpdateSecurity($data: SecurityInput!) {
+	updateSecurity(data: $data) {
+		success
+		error
+	}
+}
+
+mutation UpdateSecurityQuotes($data: SecurityQuotesInput!) {
+	updateSecurityQuotes(data: $data) {
+		success
+		error
+	}
+}
+
+mutation UpdateSplits($data: SplitsInput!) {
+	updateSplits(data: $data) {
+		success
+		error
+	}
+}
+
+mutation UpdateDividends($data: DividendsInput!) {
+	updateDividends(data: $data) {
+		success
+		error
+	}
+}
+
+mutation UpdateOutstandingShares($data: OutstandingSharesInput!) {
+	updateOutstandingShares(data: $data) {
+		success
+		error
+	}
+}
+
+query Security($id: Int!) {
+	security(id: $id){
+		name
+		indicators
+	}
+}
+
+query AllSecurityTickers {
+	securities{
+		id
+		code
+		last_update
+		is_delisted
+		exchange {
+			code
+			virtual_exchange
+		}
+	}
+}
+
+query SearchSecurity($searchText: String!, $limit: Int) {
+	searchSecurity(searchText: $searchText, limit: $limit) {
+		id
+		code
+		name
+		type
+	}
+}

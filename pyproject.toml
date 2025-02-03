@@ -1,0 +1,103 @@
+# @copyright Copyright (C) 2024 Dennis Greguhn <dev@greguhn.de>
+#  
+# @author Dennis Greguhn <dev@greguhn.de>
+# 
+# @license AGPL-3.0-or-later
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ascentrade_client"
+version = "0.1.1"
+authors = [
+	{ name="Dennis Greguhn", email="dev@greguhn.de" },
+	{ name="Pascal Dengler", email="dev@dengconsult.systems" }
+]
+description = "API client for the Ascentrade backend"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file="LICENSE" }
+keywords = ["graphql", "stocks", "financial"]
+classifiers = [
+	"Programming Language :: Python :: 3",
+	"License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+	"Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://ascentrade.app"
+Repository = "https://github.com/Ascentrade/ascentrade-client"
+Issues = "https://github.com/Ascentrade/ascentrade-client/issues"
+
+[tool.hatch.build]
+ignore-vcs = true
+include = ["tests", "ascentrade_client"]
+
+[tool.ariadne-codegen]
+client_name = "AscentradeClient"
+target_package_name = "ascentrade_client"
+#target_package_path = "src"
+#schema_path = "schema.py"
+remote_schema_url = "http://localhost:8042/graphql/"
+queries_path = "queries.gql"
+opentelemetry_client = true
+#plugins = ["ariadne_codegen.contrib.shorter_results.ShorterResultsPlugin"]
+files_to_include = [
+	"../backend/scalars/bigint_scalar.py",
+	"../backend/scalars/date_scalar.py",
+	"../backend/scalars/decimal_scalar.py",
+	"../backend/scalars/json_scalar.py",
+	"../backend/scalars/time_scalar.py",
+	"../backend/scalars/datetime_scalar.py"
+]
+
+# BigInt Scalar
+[tool.ariadne-codegen.scalars.BigInt]
+type = "int"
+parse = ".bigint_scalar.value_parser"
+serialize = ".bigint_scalar.serializer"
+
+# Date Scalar
+[tool.ariadne-codegen.scalars.Date]
+type = "datetime.date"
+parse = ".date_scalar.value_parser"
+serialize = ".date_scalar.serializer"
+
+# Decimal Scalar
+[tool.ariadne-codegen.scalars.Decimal]
+type = "decimal.Decimal"
+parse = ".decimal_scalar.value_parser"
+serialize = ".decimal_scalar.serializer"
+
+# JSON Scalar
+[tool.ariadne-codegen.scalars.JSON]
+type = "dict"
+parse = ".json_scalar.value_parser"
+serialize = ".json_scalar.serializer"
+
+# Time Scalar
+[tool.ariadne-codegen.scalars.Time]
+type = "datetime.time"
+parse = ".time_scalar.value_parser"
+serialize = ".time_scalar.serializer"
+
+# Datetime Scalar
+[tool.ariadne-codegen.scalars.Datetime]
+type = "datetime.datetime"
+parse = ".datetime_scalar.value_parser"
+serialize = ".datetime_scalar.serializer"

@@ -1,0 +1,1 @@
+python3 -m pip install ./dist/ascentrade_client-*.tar.gz
